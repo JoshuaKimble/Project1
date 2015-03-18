@@ -29,6 +29,6 @@ class AuthController extends Controller
 
         echo 'Authenticate the above two different ways' . var_dump($postData);
 
-        // example code: $auth = new Authentication($postData['username'], $postData['password']);
+        $auth = new Authentication($postData['username'], $postData['password']);
     }
 }
