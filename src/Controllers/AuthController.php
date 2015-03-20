@@ -15,7 +15,7 @@ namespace Controllers;
 use Common\Authentication\FileAuth;
 use Common\Authentication\MemoryAuth;
 use Common\Authentication\MySQLAuth;
-// use common\Authentication\SQLLiteAuth;
+use Common\Authentication\SQLiteAuth;
 
 /**
  * Class AuthController
@@ -43,12 +43,14 @@ class AuthController extends Controller
         $authMemory = new MemoryAuth();
         $fileAuth = new FileAuth();
         $authMySQL = new MySQLAuth();
+        $authSQLite = new SQLiteAuth();
 
         // echo 'Authenticate the above two different ways' . var_dump($postData) . '<br/>';
 
         $memAuth = 'Memory Auth: '.$this->output($authMemory).'<br/>';
         $authFile = 'File Auth: '.$this->output($fileAuth).'<br/>';
-        $databaseAuth = 'Database Auth: '.$this->output($authMySQL).'<br/>';
+        $databaseAuth = 'MySQL Database Auth: '.$this->output($authMySQL).'<br/>';
+        $SQLiteAuth = 'SQLite Database Auth: '.$this->output($authSQLite).'<br/>';
 
         $return_btn = <<<return_btn
         <html>
@@ -87,6 +89,7 @@ class AuthController extends Controller
                 <p>$memAuth</p>
                 <p>$authFile</p>
                 <p>$databaseAuth</p>
+                <p>$SQLiteAuth</p>
                 <a href="http://localhost:8080" class="button">return to login</a>
             </div>
         </body>

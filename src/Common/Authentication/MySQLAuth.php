@@ -2,8 +2,6 @@
 
 namespace Common\Authentication;
 
-// include 'conn.php';
-
 use PDO;
 
 class MySQLAuth implements IAuthentication
