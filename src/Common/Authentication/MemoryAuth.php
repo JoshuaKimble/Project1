@@ -1,9 +1,8 @@
 <?php
-include 'conn.php';
 
 namespace Common\Authentication;
 
-class InMemoryAuth implements CommonAuth
+class MemoryAuth implements IAuthentication
 {
 	public function __construct($username = '', $password = '')
 	{

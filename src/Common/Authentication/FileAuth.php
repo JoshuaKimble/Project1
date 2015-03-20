@@ -2,7 +2,7 @@
 
 namespace Common\Authentication;
 
-class TextFileAuth implements CommonAuth
+class FileAuth implements IAuthentication
 {
 	public function authenticate($username = '', $password = '')
 	{
@@ -13,7 +13,7 @@ class TextFileAuth implements CommonAuth
 			$this->password = $password;
 		}
 
-		$credentials = file('.very_small_rocks');
+		$credentials = file('../src/Common/Authentication/very_small_rocks');
 		$name = chop($credentials[0]);
 		$pass = chop($credentials[1]);
 

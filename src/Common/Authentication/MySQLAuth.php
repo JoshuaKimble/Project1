@@ -2,8 +2,30 @@
 
 namespace Common\Authentication;
 
-class dbAuth implements CommonAuth
+// include 'conn.php';
+
+use PDO;
+
+class MySQLAuth implements IAuthentication
 {
+	protected function db_connect()
+	{
+	    $connectionArray = file('../src/Common/Authentication/the_castle_of_aaarrrrggh');
+	    $server   = chop($connectionArray[0]);
+	    $username = chop($connectionArray[1]);
+	    $password = chop($connectionArray[2]);
+	    $database = chop($connectionArray[3]);
+
+	    try {
+	        $conn = new PDO('mysql:host='.$server.';dbname='.$database.';', $username, $password);
+	        $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+	        return $conn;
+	    }
+	    catch(PDOException $e) {
+	        return "Connection failed: " . $e->getMessage();
+	    }
+	}
+
 	public function authenticate($username = '', $password = '')
 	{
 		if ($this->username == '') {
@@ -13,37 +35,18 @@ class dbAuth implements CommonAuth
 			$this->password = $password;
 		}
 
-		$conn = db_connect();
-		$sql = "SELECT username, password FROM user;";
-		//$result = $conn->query($sql);
+		$conn = $this->db_connect();
+		$sql = "SELECT username, password FROM user WHERE username='$username' AND password='$password';";
 		$query = $conn->query($sql);
-		$result = $query->execute();
-		$rows = $query->fetchAll(PDO::FETCH_ASSOC);
+		$rows = $query->fetch(PDO::FETCH_NUM);
 
-		foreach ($rows[0] as $key => $value) {
-			if (($key === 'username' && $value !== $this->username)||($key === 'password' && $value !== $this->password)) {
-				$this->status = NON_ACTIVE;
-				return FALSE;
-			}
+		if ($rows > 0) {
+			$this->status = ACTIVE;
+			$this->lastLogin = time();
+			return TRUE;
 		}
-
-		// if ($result->num_rows > 0) {
-		//     while($row = $result->fetch_assoc()) {
-		// 		if($row["username"] === $this->username && $row["password"] === $this->password)
-		// 		{
-		// 			$this->status = ACTIVE;
-		// 			$this->lastLogin = time();
-		// 			return TRUE;
-		// 		}
-		//     }
-		// }
-		// $this->status = NON_ACTIVE;
-		// return FALSE;
-
-
-		$this->status = ACTIVE;
-		$this->lastLogin = time();
-		return TRUE;
+		$this->status = NON_ACTIVE;
+		return FALSE;
 	}
 }
 ?>

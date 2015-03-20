@@ -16,6 +16,7 @@ $config = [
             'Common\\Authentication\\FileAuth' => $authDir . '/FileAuth.php',
             'Common\\Authentication\\MemoryAuth'  => $authDir . '/MemoryAuth.php',
             'Common\\Authentication\\MySQLAuth'  => $authDir . '/MySQLAuth.php',
+            'Common\\Authentication\\IAuthentication'  => $authDir . '/IAuthentication.php',
             'Common\\Http\\IRequest'            => $httpDir . '/IRequest.php',
             'Common\\Http\\SimpleRequest'       => $httpDir . '/SimpleRequest.php',
             'Common\\Routers\\IRouter'          => $routerDir . '/IRouter.php',
